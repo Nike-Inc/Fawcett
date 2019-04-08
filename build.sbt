@@ -11,19 +11,11 @@ val sharedScalacOptions = Seq(
   "-unchecked")
 
 val releaseSettings = Seq(
-  resolvers += "nike" at "https://artifactory.nike.com/artifactory/all-repos",
   organization := "com.nike.fawcett",
   releaseCrossBuild := true,
   scalacOptions ++= sharedScalacOptions ++ Seq("-Xfatal-warnings", "-Xlint", "-Xlint:-adapted-args"),
-  scalacOptions in (Compile,console) ++= sharedScalacOptions,
-  publishTo := {
-    val repo = "https://artifactory.nike.com/artifactory/maven"
-    if (isSnapshot.value)
-      Some("snapshots" at s"$repo-snapshots")
-    else
-      Some("releases" at repo)
-  },
-  credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"))
+  scalacOptions in (Compile,console) ++= sharedScalacOptions
+)
 
 val commonSettings = Seq(
   resolvers += Resolver.sonatypeRepo("releases"),
@@ -56,8 +48,7 @@ lazy val root = (project in file("."))
   .settings(
     inThisBuild(List(
       organization := "com.nike",
-      scalaVersion := currentScalaVersion,
-      version      := "0.1.0-SNAPSHOT"
+      scalaVersion := currentScalaVersion
     )),
     name := "Fawcett",
   )
