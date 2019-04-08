@@ -1,7 +1,7 @@
 import Dependencies._
 
-val currentScalaVersion = "2.12.7"
-val scalaVersions = Seq("2.11.11", currentScalaVersion)
+val currentScalaVersion = "2.12.8"
+val scalaVersions = Seq("2.11.12", currentScalaVersion)
 val checkEvictionsTask = taskKey[Unit]("Task that fails build if there are evictions")
 
 
