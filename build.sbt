@@ -12,9 +12,29 @@ val sharedScalacOptions = Seq(
 
 val releaseSettings = Seq(
   organization := "com.nike.fawcett",
+  organizationName := "Nike",
+  organizationHomepage := Some(url("http://engineering.nike.com")),
   releaseCrossBuild := true,
   scalacOptions ++= sharedScalacOptions ++ Seq("-Xfatal-warnings", "-Xlint", "-Xlint:-adapted-args"),
-  scalacOptions in (Compile,console) ++= sharedScalacOptions
+  scalacOptions in (Compile,console) ++= sharedScalacOptions,
+  bintrayOrganization := Some("nike"),
+  bintrayPackageLabels := Seq("monocle", "aws"),
+  bintrayReleaseOnPublish in ThisBuild := false,
+  licenses := Seq("BSD 3-Clause" -> url("https://opensource.org/licenses/BSD-3-Clause")),
+  homepage := Some(url("https://github.com/Nike-Inc/fawcett")),
+  startYear := Some(2019),
+  scmInfo := Some(ScmInfo(
+    url("https://github.com/Nike-Inc/fawcett"),
+    "scm:git@github.com:Nike-Inc/fawcett.git"
+  )),
+  developers := List(
+    Developer(
+      id = "vendamere",
+      name = "Peter Vendamere",
+      email = "vendamere@gmail.com",
+      url = url("https://github.com/vendamere")
+    )
+  ),
 )
 
 val commonSettings = Seq(
@@ -39,19 +59,14 @@ val commonSettings = Seq(
     if (evicted.value.reportedEvictions.nonEmpty) {
       throw new IllegalStateException("There are some incompatible classpath evictions warnings.")
     }
-  })
+  }
+)
 
 lazy val root = (project in file("."))
   .aggregate(
     macroAwsVersion1, macroAwsVersion2,
     sqsVersion1, sqsVersion2)
-  .settings(
-    inThisBuild(List(
-      organization := "com.nike",
-      scalaVersion := currentScalaVersion
-    )),
-    name := "Fawcett",
-  )
+  .settings(skip in publish := true)
   .settings(commonSettings)
   .settings(
     addCommandAlias("check", "; +clean; checkEvictionsTask; coverage; +test; coverageReport"),
@@ -60,15 +75,17 @@ lazy val root = (project in file("."))
   )
 
 lazy val macroAwsVersion1 = (project in file("./macroVersion1"))
+  .settings(skip in publish := true)
   .settings(commonSettings)
   .settings(
     libraryDependencies += Dependencies.aws(Dependencies.Aws1, "core")
   )
 
 lazy val macroAwsVersion2 = (project in file("./macroVersion2"))
+  .settings(skip in publish := true)
   .settings(commonSettings)
   .settings(
-    libraryDependencies += Dependencies.aws(Dependencies.Aws2, "core")
+    libraryDependencies += Dependencies.aws(Dependencies.Aws2, "core"),
   )
 
 lazy val commonAwsVersion1 = Seq(
@@ -82,8 +99,8 @@ lazy val commonAwsVersion2 = Seq(
   unmanagedSourceDirectories in Compile += baseDirectory.value / "src/main/aws-version-2",
   unmanagedSourceDirectories in Test += baseDirectory.value / "src/test/aws-version-2",
   dependencyOverrides ++= List(
-    "io.netty" % "netty-codec-http" % "4.1.32.Final",
-    "io.netty" % "netty-handler" % "4.1.32.Final",
+    "io.netty" % "netty-codec-http" % "4.1.33.Final",
+    "io.netty" % "netty-handler" % "4.1.33.Final",
     "org.reactivestreams" % "reactive-streams" % "1.0.2",
   )
 )
@@ -95,6 +112,8 @@ lazy val sqsVersion1 = (project in file("./sqs"))
   .settings(releaseSettings)
   .settings(
     name := "fawcett-sqs-v1",
+    description := "Collection of Monocle lenses for AWS SQS version 1",
+    bintrayPackageLabels += "sqs",
     libraryDependencies += Dependencies.aws(Dependencies.Aws1, "sqs")
   )
 
@@ -105,6 +124,7 @@ lazy val sqsVersion2 = (project in file("./sqs"))
   .settings(releaseSettings)
   .settings(
     name := "fawcett-sqs-v2",
-    target := file("target/v2"),
+    description := "Collection of Monocle lenses for AWS SQS version 2",
+    bintrayPackageLabels += "sqs",
     libraryDependencies += Dependencies.aws(Dependencies.Aws2, "sqs")
   )
