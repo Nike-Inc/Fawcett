@@ -1,5 +1,6 @@
 Fawcett
 -------
+![Fawcett logo][logo]
 
 A collection of [Monocle](http://julien-truffaut.github.io/Monocle/) lenses for navigating Amazon's API models.
 
@@ -70,3 +71,5 @@ License
 -------
 
 Fawcett is released under the [BSD-3 clause](LICENSE.md) license.
+
+[logo]: images/monocle-outline-Fawcett@250px.png "Fawcett logo"
