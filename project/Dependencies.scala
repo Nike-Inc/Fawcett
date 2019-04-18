@@ -14,7 +14,7 @@ object Dependencies {
   }
   object Aws2 extends AwsVersions {
     val namespace = "software.amazon.awssdk"
-    val version = "2.4.11"
+    val version = "2.5.25"
   }
 
   def aws(awsVersion: AwsVersions, service: String) = {
