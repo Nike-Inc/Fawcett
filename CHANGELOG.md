@@ -1,4 +1,6 @@
 Change log
 ----------
 
-Nothing to see here yet.
+## 1.2
+
+Initial Release

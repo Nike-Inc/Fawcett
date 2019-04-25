@@ -4,6 +4,18 @@ Fawcett
 
 A collection of [Monocle](http://julien-truffaut.github.io/Monocle/) lenses for navigating Amazon's API models.
 
+Setup
+-----
+
+Include the following in your `build.sbt`. If you're using AWS Java SDK version 1 change the `awsSdkVersion` to `"v1"`.
+```
+val awsSdkVersion = "v2"
+...
+resolvers += Resolver.bintrayRepo("nike", "maven"),
+libraryDependencies += "com.nike.fawcett" %% s"fawcett-sqs-$awsSdkVersion" % "0.1.2",
+```
+
+
 Usage
 -----
 
