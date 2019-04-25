@@ -19,7 +19,6 @@ val releaseSettings = Seq(
   scalacOptions in (Compile,console) ++= sharedScalacOptions,
   bintrayOrganization := Some("nike"),
   bintrayPackageLabels := Seq("monocle", "aws"),
-  bintrayReleaseOnPublish in ThisBuild := false,
   licenses := Seq("BSD 3-Clause" -> url("https://opensource.org/licenses/BSD-3-Clause")),
   homepage := Some(url("https://github.com/Nike-Inc/fawcett")),
   startYear := Some(2019),
@@ -67,6 +66,7 @@ lazy val root = (project in file("."))
     macroAwsVersion1, macroAwsVersion2,
     sqsVersion1, sqsVersion2)
   .settings(skip in publish := true)
+  .settings(releaseSettings)
   .settings(commonSettings)
   .settings(
     addCommandAlias("check", "; +clean; checkEvictionsTask; coverage; +test; coverageReport"),
@@ -106,7 +106,7 @@ lazy val commonAwsVersion2 = Seq(
 )
 
 lazy val sqsVersion1 = (project in file("./sqs"))
-  .dependsOn(macroAwsVersion1)
+  .dependsOn(macroAwsVersion1 % "compile-internal, test-internal")
   .settings(commonSettings)
   .settings(commonAwsVersion1)
   .settings(releaseSettings)
@@ -114,11 +114,13 @@ lazy val sqsVersion1 = (project in file("./sqs"))
     name := "fawcett-sqs-v1",
     description := "Collection of Monocle lenses for AWS SQS version 1",
     bintrayPackageLabels += "sqs",
-    libraryDependencies += Dependencies.aws(Dependencies.Aws1, "sqs")
+    libraryDependencies += Dependencies.aws(Dependencies.Aws1, "sqs"),
+    mappings in (Compile, packageBin) ++= mappings.in(macroAwsVersion1, Compile, packageBin).value,
+    mappings in (Compile, packageSrc) ++= mappings.in(macroAwsVersion1, Compile, packageSrc).value
   )
 
 lazy val sqsVersion2 = (project in file("./sqs"))
-  .dependsOn(macroAwsVersion2)
+  .dependsOn(macroAwsVersion2 % "compile-internal, test-internal")
   .settings(commonAwsVersion2)
   .settings(commonSettings)
   .settings(releaseSettings)
@@ -126,5 +128,7 @@ lazy val sqsVersion2 = (project in file("./sqs"))
     name := "fawcett-sqs-v2",
     description := "Collection of Monocle lenses for AWS SQS version 2",
     bintrayPackageLabels += "sqs",
-    libraryDependencies += Dependencies.aws(Dependencies.Aws2, "sqs")
+    libraryDependencies += Dependencies.aws(Dependencies.Aws2, "sqs"),
+    mappings in (Compile, packageBin) ++= mappings.in(macroAwsVersion2, Compile, packageBin).value,
+    mappings in (Compile, packageSrc) ++= mappings.in(macroAwsVersion2, Compile, packageSrc).value
   )
