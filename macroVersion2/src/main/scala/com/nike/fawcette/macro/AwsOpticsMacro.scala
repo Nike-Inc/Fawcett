@@ -18,6 +18,7 @@ class awsOptics(className: String, exclude: List[String] = Nil) extends StaticAn
   def macroTransform(annottees: Any*): Any = macro AwsOpticsMacro.genOptics
 }
 
+// $COVERAGE-OFF$
 object AwsOpticsMacro {
   case class Arguments(className: String, excludes: List[String])
 
@@ -51,6 +52,7 @@ object AwsOpticsMacro {
     def parseArgList(args: List[Tree]): List[String] = args.foldLeft(List.empty[String]) {
       case (acc, Literal(Constant(value: String))) => acc :+ value }
   }
+  // $COVERAGE-ON$
 
   def genOptics(c: Context)(annottees: c.Expr[Any]*): c.Expr[Any] = {
     import c.universe._
