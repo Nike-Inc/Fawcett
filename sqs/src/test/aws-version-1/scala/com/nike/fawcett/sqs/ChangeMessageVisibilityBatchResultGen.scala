@@ -5,7 +5,7 @@ import com.amazonaws.services.sqs.model.{BatchResultErrorEntry, ChangeMessageVis
 import org.scalacheck._
 import BatchResultErrorEntryGen._
 import ChangeMessageVisibilityBatchResultEntryGen._
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /* Copyright 2019-present, Nike, Inc.
  * All rights reserved.

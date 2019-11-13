@@ -1,7 +1,7 @@
 import Dependencies._
 
-val currentScalaVersion = "2.12.8"
-val scalaVersions = Seq("2.11.12", currentScalaVersion)
+val currentScalaVersion = "2.13.0"
+val scalaVersions = Seq("2.12.10", currentScalaVersion)
 val checkEvictionsTask = taskKey[Unit]("Task that fails build if there are evictions")
 
 
@@ -40,16 +40,26 @@ val commonSettings = Seq(
   resolvers += Resolver.sonatypeRepo("releases"),
   scalaVersion := currentScalaVersion,
   crossScalaVersions := scalaVersions,
-  addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
+  libraryDependencies ++= (CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, major)) if major <= 12 => compilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full) :: Nil
+    case _ => Nil
+  }),
+  libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value,
+  libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value % "provided",
+  libraryDependencies += scalaCollectionCompat,
   libraryDependencies ++= monocle,
   dependencyOverrides += catsCore,
   scalacOptions in (Compile, console) ~=
     (_ filterNot Set("-Xfatal-warnings", "-Xlint", "-Ywarn-unused-import")),
+  scalacOptions ++= (CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, major)) if major >= 13 => "-Ymacro-annotations" :: Nil
+    case _ => Nil
+  }),
   coverageMinimum := 100,
   coverageFailOnMinimum := true,
-  libraryDependencies += scalaTest % Test,
   libraryDependencies += scalaCheck % Test,
   libraryDependencies += pegDown % Test,
+  libraryDependencies += flexmark % Test,
   libraryDependencies += discipline % Test,
   testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-oDF"),
   testOptions in Test +=

@@ -4,7 +4,7 @@ import com.amazonaws.services.sqs.model.{SendMessageBatchRequest, SendMessageBat
 import org.scalacheck._
 import org.scalacheck.Gen._
 import Arbitrary.arbitrary
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import SendMessageBatchRequestEntryGen._
 
 /* Copyright 2019-present, Nike, Inc.

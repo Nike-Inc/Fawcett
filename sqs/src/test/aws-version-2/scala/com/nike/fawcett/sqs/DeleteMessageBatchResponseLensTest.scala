@@ -1,14 +1,15 @@
 package com.nike.fawcett.sqs
 
 import cats.implicits._
-import org.scalatest.{ FunSuite, Matchers }
+import org.scalatest.Matchers
+import org.scalatest.funsuite.AnyFunSuite
 import monocle.law.discipline.LensTests
 import org.typelevel.discipline.Laws
 import BatchResultErrorEntryLens._
 import DeleteMessageBatchResponseLens._
 import DeleteMessageBatchResultEntryLens._
 import org.typelevel.discipline.scalatest.Discipline
-import software.amazon.awssdk.services.sqs.model.{BatchResultErrorEntry,  DeleteMessageBatchResultEntry}
+import software.amazon.awssdk.services.sqs.model.{BatchResultErrorEntry, DeleteMessageBatchResultEntry}
 import org.scalacheck._
 import Gen._
 import BatchResultErrorEntryGen._
@@ -21,7 +22,7 @@ import DeleteMessageBatchResultEntryGen._
  * the LICENSE file in the root directory of this source tree.
  */
 
-class DeleteMessageBatchResponseLensTest extends FunSuite with Matchers with Discipline with Laws {
+class DeleteMessageBatchResponseLensTest extends AnyFunSuite with Matchers with Discipline with Laws {
   import DeleteMessageBatchResponseGen._
   checkAll("failed", LensTests(failed))
   checkAll("sucessful", LensTests(successful))

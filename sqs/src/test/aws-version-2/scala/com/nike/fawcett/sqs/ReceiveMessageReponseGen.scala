@@ -5,7 +5,7 @@ import org.scalacheck._
 import Arbitrary.arbitrary
 import Gen._
 import MessageGen._
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /* Copyright 2019-present, Nike, Inc.
  * All rights reserved.

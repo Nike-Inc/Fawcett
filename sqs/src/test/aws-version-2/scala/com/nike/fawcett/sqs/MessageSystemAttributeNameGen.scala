@@ -3,7 +3,7 @@ package com.nike.fawcett.sqs
 import software.amazon.awssdk.services.sqs.model.MessageSystemAttributeName
 import org.scalacheck._
 import Gen._
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import Arbitrary.arbitrary
 
 /* Copyright 2019-present, Nike, Inc.
