@@ -2,7 +2,7 @@ package com.nike.fawcett.sqs
 
 import org.scalacheck._
 import com.amazonaws.services.sqs.model.{BatchResultErrorEntry, DeleteMessageBatchResult, DeleteMessageBatchResultEntry}
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import BatchResultErrorEntryGen._
 import DeleteMessageBatchResultEntryGen._
 

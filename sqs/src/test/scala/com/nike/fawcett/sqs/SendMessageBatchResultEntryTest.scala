@@ -1,7 +1,8 @@
 package com.nike.fawcett.sqs
 
 import cats.implicits._
-import org.scalatest.{ FunSuite, Matchers }
+import org.scalatest.Matchers
+import org.scalatest.funsuite.AnyFunSuite
 import monocle.law.discipline.LensTests
 import com.nike.fawcett.sqs.SendMessageBatchResultEntryLens._
 import org.typelevel.discipline.scalatest.Discipline
@@ -13,7 +14,7 @@ import org.typelevel.discipline.scalatest.Discipline
  * the LICENSE file in the root directory of this source tree.
  */
 
-class SendMessageBatchResultEntryLensTest extends FunSuite with Matchers with Discipline {
+class SendMessageBatchResultEntryLensTest extends AnyFunSuite with Matchers with Discipline {
   import SendMessageBatchResultEntryGen._
   checkAll("id", LensTests(id))
   checkAll("md5OfMessageAttributes", LensTests(md5OfMessageAttributes))

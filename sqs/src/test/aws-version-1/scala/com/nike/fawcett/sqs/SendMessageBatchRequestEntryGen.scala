@@ -4,7 +4,7 @@ import com.amazonaws.services.sqs.model.{SendMessageBatchRequestEntry, MessageAt
 import org.scalacheck._
 import Gen._
 import Arbitrary.arbitrary
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.concurrent.duration._
 
 /* Copyright 2019-present, Nike, Inc.

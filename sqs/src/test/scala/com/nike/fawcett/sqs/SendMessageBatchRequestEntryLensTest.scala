@@ -1,7 +1,8 @@
 package com.nike.fawcett.sqs
 
 import cats.implicits._
-import org.scalatest.{ FunSuite, Matchers }
+import org.scalatest.Matchers
+import org.scalatest.funsuite.AnyFunSuite
 import monocle.law.discipline.LensTests
 import SendMessageBatchRequestEntryLens._
 import org.typelevel.discipline.scalatest.Discipline
@@ -14,7 +15,7 @@ import MessageAttributeValueLens._
  * the LICENSE file in the root directory of this source tree.
  */
 
-class SendMessageBatchRequestEntryLensTest extends FunSuite with Matchers with Discipline {
+class SendMessageBatchRequestEntryLensTest extends AnyFunSuite with Matchers with Discipline {
   import SendMessageBatchRequestEntryGen._
 
   checkAll("delaySeconds", LensTests(delaySeconds))

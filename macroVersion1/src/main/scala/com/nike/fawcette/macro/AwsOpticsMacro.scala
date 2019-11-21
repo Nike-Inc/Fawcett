@@ -18,14 +18,44 @@ class awsOptics(className: String, exclude: List[String] = Nil) extends StaticAn
   def macroTransform(annottees: Any*): Any = macro AwsOpticsMacro.genOptics
 }
 
+// $COVERAGE-OFF$
 object AwsOpticsMacro {
   case class Arguments(className: String, excludes: List[String])
 
-  def genOptics(c: Context)(annottees: c.Expr[Any]*): c.Expr[Any] = {
+  class ParseArguments(val c: Context) extends Compatibility {
     import c.universe._
+
+    def arguments = c.macroApplication match {
+      case Apply(Select(Apply(Select(New(Ident(_)), t), args), _), _) if t == termNames.CONSTRUCTOR =>
+        args match {
+          case List(Literal(Constant(className: String))) => Arguments(className, List.empty)
+
+          case List(Literal(Constant(className: String)),
+          Apply(Ident(TermName("List")), values: List[Tree])) =>
+            Arguments(className, parseArgList(values))
+
+          case List(
+          Literal(Constant(className: String)),
+          NamedArg(Ident(TermName("exclude")), Apply(Ident(TermName("List")), values: List[Tree]))) =>
+
+            Arguments(className, parseArgList(values))
+
+          case _ => c.abort(
+            c.enclosingPosition,
+            "You must provide a class to @awsOptics")
+        }
+      case _ => c.abort(
+        c.enclosingPosition,
+        "You must provide a class to @awsOptics")
+    }
 
     def parseArgList(args: List[Tree]): List[String] = args.foldLeft(List.empty[String]) {
       case (acc, Literal(Constant(value: String))) => acc :+ value }
+  }
+  // $COVERAGE-ON$
+
+  def genOptics(c: Context)(annottees: c.Expr[Any]*): c.Expr[Any] = {
+    import c.universe._
 
     def camelCase(string: String) = {
       val regex = "(^[a-z]+|[A-Z0-9]+(?![a-z])|[A-Z][a-z]+)".r
@@ -35,29 +65,7 @@ object AwsOpticsMacro {
       }).mkString
     }
 
-    val arguments = c.macroApplication match {
-      case Apply(Select(Apply(Select(New(Ident(_)), t), args), _), _) if t == termNames.CONSTRUCTOR =>
-        args match {
-          case List(Literal(Constant(className: String))) => Arguments(className, List.empty)
-
-          case List(Literal(Constant(className: String)),
-            Apply(Ident(TermName("List")), values: List[Tree])) =>
-            Arguments(className, parseArgList(values))
-
-          case List(
-            Literal(Constant(className: String)),
-            AssignOrNamedArg(Ident(TermName("exclude")), Apply(Ident(TermName("List")), values: List[Tree]))) =>
-
-            Arguments(className, parseArgList(values))
-
-          case _ => c.abort(
-            c.enclosingPosition,
-            "You must provide a class to @awsOptics")
-        }
-        case _ => c.abort(
-          c.enclosingPosition,
-          "You must provide a class to @awsOptics")
-    }
+    val arguments = new ParseArguments(c).arguments
 
     val fullClassName = s"com.amazonaws.services.${arguments.className}"
     val sourceClass = Class.forName(fullClassName)
@@ -133,7 +141,7 @@ object AwsOpticsMacro {
     val (conversionStates: List[Boolean], lenses: List[Tree]) = methods.toList.map(method => createLens(method)).unzip
 
     val imports: List[Tree] = if (conversionStates.reduce(_ || _) == true) {
-      List(q"import scala.collection.JavaConverters._")
+      List(q"import scala.jdk.CollectionConverters._")
     } else List.empty
 
     val result = annottees.head.tree match {

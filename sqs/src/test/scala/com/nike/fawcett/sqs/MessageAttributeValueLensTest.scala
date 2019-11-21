@@ -2,7 +2,8 @@ package com.nike.fawcett.sqs
 
 import MessageAttributeValueLens._
 import cats.implicits._
-import org.scalatest.{FunSuite, Matchers, OptionValues}
+import org.scalatest.{Matchers, OptionValues}
+import org.scalatest.funsuite.AnyFunSuite
 import monocle.law.discipline.PrismTests
 import org.typelevel.discipline.scalatest.Discipline
 
@@ -13,7 +14,7 @@ import org.typelevel.discipline.scalatest.Discipline
  * the LICENSE file in the root directory of this source tree.
  */
 
-class MessageAttributeValueLensTest extends FunSuite with Matchers with Discipline with OptionValues {
+class MessageAttributeValueLensTest extends AnyFunSuite with Matchers with Discipline with OptionValues {
   import MessageAttributeValueGen._
 
   checkAll("stringValue", PrismTests(MessageAttributeValueLens.stringValue))

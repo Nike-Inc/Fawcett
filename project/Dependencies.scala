@@ -1,8 +1,6 @@
 import sbt._
 
 object Dependencies {
-  lazy val scalaTest = "org.scalatest" %% "scalatest" % "3.0.5"
-
   sealed trait AwsVersions {
     val namespace: String
     val version: String
@@ -26,13 +24,15 @@ object Dependencies {
    awsVersion.namespace % packageName % awsVersion.version exclude("commons-logging", "commons-logging")
   }
 
-  val monocleVersion = "1.5.0-cats"
+  val monocleVersion = "2.0.0"
   val monocle = Seq(
     "com.github.julien-truffaut"  %%  "monocle-core" % monocleVersion,
     "com.github.julien-truffaut" %%  "monocle-law" % monocleVersion % "test"
   )
-  val catsCore = "org.typelevel" %% "cats-core" % "1.0.1"
+  val catsCore = "org.typelevel" %% "cats-core" % "2.0.0"
   val scalaCheck = "org.scalacheck" %% "scalacheck" % "1.14.0"
   val pegDown = "org.pegdown" % "pegdown" % "1.4.2"
-  val discipline = "org.typelevel" %% "discipline" % "0.10.0"
+  val flexmark = "com.vladsch.flexmark" % "flexmark-all" % "0.35.10"
+  val discipline = "org.typelevel" %% "discipline-core" % "1.0.1"
+  val scalaCollectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % "2.1.2"
 }
