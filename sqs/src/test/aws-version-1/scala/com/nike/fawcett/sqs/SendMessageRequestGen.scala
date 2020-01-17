@@ -1,11 +1,12 @@
 package com.nike.fawcett.sqs
 
-import com.amazonaws.services.sqs.model.SendMessageRequest
+import com.amazonaws.services.sqs.model.{MessageSystemAttributeValue, SendMessageRequest}
 import org.scalacheck._
 import Gen._
 import Arbitrary.arbitrary
 import scala.jdk.CollectionConverters._
 import scala.concurrent.duration._
+import MessageSystemAttributeMapGen._
 
 /* Copyright 2019-present, Nike, Inc.
  * All rights reserved.
@@ -21,6 +22,7 @@ object SendMessageRequestGen {
       delaySeconds <- choose(0, 15.minutes.toSeconds.toInt)
       id <- identifier(0, 80, '_', '-')
       attributes <- mapOf(attributeMapEntryGen)
+      messageSystemAttributes <- arbitrary[Map[String, MessageSystemAttributeValue]]
       body <- arbitrary[String]
       deduplicationId <- identifier(0, 128, allValidSymbols :_*)
       groupId <- identifier(0, 128, allValidSymbols :_*)
@@ -29,6 +31,7 @@ object SendMessageRequestGen {
         .withQueueUrl(queueUrl)
         .withDelaySeconds(delaySeconds)
         .withMessageAttributes(attributes.asJava)
+        .withMessageSystemAttributes(messageSystemAttributes.asJava)
         .withMessageBody(body)
         .withMessageDeduplicationId(deduplicationId)
         .withMessageGroupId(groupId)

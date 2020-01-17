@@ -22,12 +22,14 @@ object SendMessageResponseGen {
 
   val genSendMessageResponse = for {
     md5OfMessageAttributes <- arbitrary[String]
+    md5OfMessageSystemAttributes <- arbitrary[String]
     md5OfBody <- arbitrary[String]
     messageId <- arbitrary[String]
     sequenceNumber <- arbitrary[String]
   } yield {
     SendMessageResponse.builder
       .md5OfMessageAttributes(md5OfMessageAttributes)
+      .md5OfMessageSystemAttributes(md5OfMessageSystemAttributes)
       .md5OfMessageBody(md5OfBody)
       .messageId(messageId)
       .sequenceNumber(sequenceNumber)

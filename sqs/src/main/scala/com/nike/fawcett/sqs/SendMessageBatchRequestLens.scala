@@ -10,7 +10,7 @@ import monocle.function.all._
  * the LICENSE file in the root directory of this source tree.
  */
 
-@awsOptics("sqs.model.SendMessageBatchRequest")
+@awsOptics("sqs.model.SendMessageBatchRequest", exclude = List("hasEntries"))
 trait SendMessageBatchRequestLens {
 
   val allMessageDeduplicationIds = entries composeTraversal each composeLens SendMessageBatchRequestEntryLens.messageDeduplicationId
