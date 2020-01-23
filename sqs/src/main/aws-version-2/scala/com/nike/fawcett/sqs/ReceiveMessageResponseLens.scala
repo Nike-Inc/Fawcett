@@ -10,7 +10,7 @@ import monocle.function.all._
  * the LICENSE file in the root directory of this source tree.
  */
 
-@awsOptics("sqs.model.ReceiveMessageResponse")
+@awsOptics("sqs.model.ReceiveMessageResponse", exclude = List("hasMessages"))
 trait ReceiveMessageResponseLens {
   val allBodies = messages composeTraversal each composeLens MessageLens.body
 }

@@ -9,5 +9,5 @@ import com.nike.fawcett.opticsMacro.awsOptics
  * the LICENSE file in the root directory of this source tree.
  */
 
-@awsOptics("sqs.model.ChangeMessageVisibilityBatchRequest")
+@awsOptics("sqs.model.ChangeMessageVisibilityBatchRequest", exclude = List("hasEntries"))
 trait ChangeMessageVisibilityBatchRequestLens { }

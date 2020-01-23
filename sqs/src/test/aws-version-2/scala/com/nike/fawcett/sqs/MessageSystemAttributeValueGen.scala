@@ -1,6 +1,6 @@
 package com.nike.fawcett.sqs
 
-import software.amazon.awssdk.services.sqs.model.MessageAttributeValue
+import software.amazon.awssdk.services.sqs.model.MessageSystemAttributeValue
 import software.amazon.awssdk.core.SdkBytes
 import org.scalacheck._
 import org.scalacheck.Gen._
@@ -13,11 +13,21 @@ import Arbitrary.arbitrary
  * the LICENSE file in the root directory of this source tree.
  */
 
-object MessageAttributeValueGen {
+object MessageSystemAttributeValueGen {
 
-  implicit val messageAttributeValue = Arbitrary(for {
+  implicit val cogenMessageSystemAttributeValueGen: Cogen[MessageSystemAttributeValue] =
+    Cogen[(String, Array[Byte])].contramap { value =>
+      val dataType = value.dataType
+      val bytes = dataType match {
+        case "String" | "Number" => value.stringValue.getBytes
+        case _ => value.binaryValue.asByteArray
+      }
+      dataType -> bytes
+    }
+
+  implicit val messageSystemAttributeValue = Arbitrary(for {
     dataType <- oneOf(BinaryValue, StringValue, NumberValue)
-    attribute = MessageAttributeValue.builder
+    attribute = MessageSystemAttributeValue.builder
       .dataType(dataType.key)
     stringValue <- arbitrary[String]
     numberValue <- arbitrary[Double]

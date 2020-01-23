@@ -9,5 +9,6 @@ import com.nike.fawcett.opticsMacro.awsOptics
  * the LICENSE file in the root directory of this source tree.
  */
 
-@awsOptics("sqs.model.ReceiveMessageRequest", exclude = List("attributeNamesAsStrings"))
+@awsOptics("sqs.model.ReceiveMessageRequest", exclude = List("attributeNamesAsStrings", "hasMessageAttributeNames",
+  "hasAttributeNames"))
 trait ReceiveMessageRequestLens { }

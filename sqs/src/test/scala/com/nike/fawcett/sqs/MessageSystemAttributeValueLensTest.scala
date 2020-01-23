@@ -1,6 +1,6 @@
 package com.nike.fawcett.sqs
 
-import MessageSystemAttributeValueLens._
+import MessageAttributeValueLens._
 import cats.implicits._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.OptionValues
@@ -15,10 +15,10 @@ import org.typelevel.discipline.scalatest.Discipline
  * the LICENSE file in the root directory of this source tree.
  */
 
-class MessageSystemAttributeValueLensTest extends AnyFunSuite with Matchers with Discipline with OptionValues {
-  import MessageSystemAttributeValueGen._
+class MessageAttributeValueLensTest extends AnyFunSuite with Matchers with Discipline with OptionValues {
+  import MessageAttributeValueGen._
 
-  checkAll("stringValue", PrismTests(MessageSystemAttributeValueLens.stringValue))
-  checkAll("numberValue", PrismTests(MessageSystemAttributeValueLens.numberValue))
-  checkAll("binaryValue", PrismTests(MessageSystemAttributeValueLens.binaryValue))
+  checkAll("stringValue", PrismTests(MessageAttributeValueLens.stringValue))
+  checkAll("numberValue", PrismTests(MessageAttributeValueLens.numberValue))
+  checkAll("binaryValue", PrismTests(MessageAttributeValueLens.binaryValue))
 }

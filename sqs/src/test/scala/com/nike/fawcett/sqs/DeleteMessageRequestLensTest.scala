@@ -1,7 +1,7 @@
 package com.nike.fawcett.sqs
 
 import cats.implicits._
-import org.scalatest.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.funsuite.AnyFunSuite
 import monocle.law.discipline.LensTests
 import DeleteMessageRequestLens._

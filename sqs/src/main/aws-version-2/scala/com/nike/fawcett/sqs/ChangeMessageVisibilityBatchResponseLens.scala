@@ -10,7 +10,7 @@ import monocle.function.all._
  * the LICENSE file in the root directory of this source tree.
  */
 
-@awsOptics("sqs.model.ChangeMessageVisibilityBatchResponse")
+@awsOptics("sqs.model.ChangeMessageVisibilityBatchResponse", exclude = List("hasSuccessful", "hasFailed"))
 trait ChangeMessageVisibilityBatchResponseLens {
   val anyFailedBySender = failed composeTraversal each composeLens BatchResultErrorEntryLens.senderFault exist(_ == true)
 }

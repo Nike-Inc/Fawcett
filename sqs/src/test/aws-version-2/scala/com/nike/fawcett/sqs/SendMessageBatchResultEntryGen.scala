@@ -26,6 +26,7 @@ object SendMessageBatchResultEntryGen {
     for {
       id <- identifier(0, 80, '_', '-')
       md5MessageAttributes <- arbitrary[String]
+      md5MessageSystemAttributes <- arbitrary[String]
       md5MessageBody <- arbitrary[String]
       messageId <- identifier(0, 80, '_', '-')
       sequenceNumber <- numStr
@@ -33,6 +34,7 @@ object SendMessageBatchResultEntryGen {
       SendMessageBatchResultEntry.builder
         .id(id)
         .md5OfMessageAttributes(md5MessageAttributes)
+        .md5OfMessageSystemAttributes(md5MessageSystemAttributes)
         .md5OfMessageBody(md5MessageBody)
         .messageId(messageId)
         .sequenceNumber(sequenceNumber)

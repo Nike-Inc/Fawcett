@@ -58,7 +58,6 @@ val commonSettings = Seq(
   coverageMinimum := 100,
   coverageFailOnMinimum := true,
   libraryDependencies += scalaCheck % Test,
-  libraryDependencies += pegDown % Test,
   libraryDependencies += flexmark % Test,
   libraryDependencies += discipline % Test,
   testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-oDF"),
@@ -109,9 +108,10 @@ lazy val commonAwsVersion2 = Seq(
   unmanagedSourceDirectories in Compile += baseDirectory.value / "src/main/aws-version-2",
   unmanagedSourceDirectories in Test += baseDirectory.value / "src/test/aws-version-2",
   dependencyOverrides ++= List(
-    "io.netty" % "netty-codec-http" % "4.1.33.Final",
-    "io.netty" % "netty-handler" % "4.1.33.Final",
+    "io.netty" % "netty-codec-http" % "4.1.42.Final",
+    "io.netty" % "netty-handler" % "4.1.42.Final",
     "org.reactivestreams" % "reactive-streams" % "1.0.2",
+    "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.0",
   )
 )
 

@@ -75,7 +75,8 @@ object AwsOpticsMacro {
 
     val classExcludes =
       sourceClass.getSuperclass.getMethods.toList.map(_.getName).toSet ++
-      Set("serializableBuilderClass", "copy", "builder", "toBuilder", "sdkFields", "getValueForField")
+      Set("serializableBuilderClass", "copy", "builder", "toBuilder", "sdkFields", "getValueForField",
+        "equalsBySdkFields")
 
     val allExcludes = (arguments.excludes ++ classExcludes.toList).map(_.toLowerCase)
 

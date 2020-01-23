@@ -1,7 +1,7 @@
 package com.nike.fawcett.sqs
 
 import cats.implicits._
-import org.scalatest.Matchers
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.funsuite.AnyFunSuite
 import monocle.law.discipline.LensTests
 import SendMessageResultLens._
@@ -21,4 +21,5 @@ class SendMessageResultLensTest extends AnyFunSuite with Matchers with Disciplin
   checkAll("md5OfMessageBody", LensTests(md5OfMessageBody))
   checkAll("messageId", LensTests(messageId))
   checkAll("sequenceNumber", LensTests(sequenceNumber))
+  checkAll("md5OfMessageSystemAttributes", LensTests(md5OfMessageSystemAttributes))
 }
