@@ -1,7 +1,6 @@
 package com.nike.fawcett
 
 import org.scalacheck._
-import Gen._
 import Arbitrary.arbitrary
 import org.typelevel.discipline.Laws
 import scala.util.Random

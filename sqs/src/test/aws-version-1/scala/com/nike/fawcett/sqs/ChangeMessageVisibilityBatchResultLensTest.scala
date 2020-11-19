@@ -3,14 +3,14 @@ package com.nike.fawcett.sqs
 import cats.implicits._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.funsuite.AnyFunSuite
+import org.typelevel.discipline.scalatest.FunSuiteDiscipline
 import monocle.law.discipline.LensTests
 import ChangeMessageVisibilityBatchResultLens._
 import ChangeMessageVisibilityBatchResultEntryLens._
 import BatchResultErrorEntryLens._
 import org.typelevel.discipline.scalatest.Discipline
+import org.scalatest.prop.Configuration
 import com.amazonaws.services.sqs.model.{BatchResultErrorEntry, ChangeMessageVisibilityBatchResultEntry}
-import org.scalacheck._
-import Gen._
 import BatchResultErrorEntryGen._
 import ChangeMessageVisibilityBatchResultEntryGen._
 
@@ -21,7 +21,9 @@ import ChangeMessageVisibilityBatchResultEntryGen._
  * the LICENSE file in the root directory of this source tree.
  */
 
-class ChangeMessageVisibilityBatchResultLensTest extends AnyFunSuite with Matchers with Discipline {
+class ChangeMessageVisibilityBatchResultLensTest extends AnyFunSuite with FunSuiteDiscipline with Matchers
+  with Discipline with Configuration {
+
   import ChangeMessageVisibilityBatchResultGen._
 
   checkAll("failed", LensTests(failed))

@@ -5,7 +5,8 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.funsuite.AnyFunSuite
 import monocle.law.discipline.{LensTests, TraversalTests}
 import ReceiveMessageResponseLens._
-import org.typelevel.discipline.scalatest.Discipline
+import org.typelevel.discipline.scalatest.{Discipline, FunSuiteDiscipline}
+import org.scalatest.prop.Configuration
 import MessageGen._
 import MessageLens._
 
@@ -16,7 +17,9 @@ import MessageLens._
  * the LICENSE file in the root directory of this source tree.
  */
 
-class ReceiveMessageResultLensTest extends AnyFunSuite with Matchers with Discipline {
+class ReceiveMessageResultLensTest extends AnyFunSuite with FunSuiteDiscipline with Matchers with Discipline
+  with Configuration {
+
   import ReceiveMessageResponseGen._
 
   checkAll("messages", LensTests(messages))

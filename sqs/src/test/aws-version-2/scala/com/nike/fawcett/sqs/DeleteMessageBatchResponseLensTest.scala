@@ -8,10 +8,9 @@ import org.typelevel.discipline.Laws
 import BatchResultErrorEntryLens._
 import DeleteMessageBatchResponseLens._
 import DeleteMessageBatchResultEntryLens._
-import org.typelevel.discipline.scalatest.Discipline
+import org.typelevel.discipline.scalatest.{Discipline, FunSuiteDiscipline}
+import org.scalatest.prop.Configuration
 import software.amazon.awssdk.services.sqs.model.{BatchResultErrorEntry, DeleteMessageBatchResultEntry}
-import org.scalacheck._
-import Gen._
 import BatchResultErrorEntryGen._
 import DeleteMessageBatchResultEntryGen._
 
@@ -22,8 +21,11 @@ import DeleteMessageBatchResultEntryGen._
  * the LICENSE file in the root directory of this source tree.
  */
 
-class DeleteMessageBatchResponseLensTest extends AnyFunSuite with Matchers with Discipline with Laws {
+class DeleteMessageBatchResponseLensTest extends AnyFunSuite with FunSuiteDiscipline with Matchers with Discipline
+  with Configuration with Laws {
+
   import DeleteMessageBatchResponseGen._
+
   checkAll("failed", LensTests(failed))
   checkAll("sucessful", LensTests(successful))
 
