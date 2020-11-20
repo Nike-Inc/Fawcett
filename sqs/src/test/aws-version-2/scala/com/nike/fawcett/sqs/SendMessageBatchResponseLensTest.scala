@@ -8,7 +8,8 @@ import org.typelevel.discipline.Laws
 import SendMessageBatchResponseLens._
 import SendMessageBatchResultEntryLens._
 import BatchResultErrorEntryLens._
-import org.typelevel.discipline.scalatest.Discipline
+import org.typelevel.discipline.scalatest.{Discipline, FunSuiteDiscipline}
+import org.scalatest.prop.Configuration
 import software.amazon.awssdk.services.sqs.model.{BatchResultErrorEntry, SendMessageBatchResultEntry}
 import BatchResultErrorEntryGen._
 import SendMessageBatchResultEntryGen._
@@ -20,7 +21,9 @@ import SendMessageBatchResultEntryGen._
  * the LICENSE file in the root directory of this source tree.
  */
 
-class SendMessageBatchResponseLensTest extends AnyFunSuite with Matchers with Discipline with Laws {
+class SendMessageBatchResponseLensTest extends AnyFunSuite with FunSuiteDiscipline with Matchers with Discipline
+  with Configuration with Laws {
+
   import SendMessageBatchResponseGen._
 
   checkAll("failed", LensTests(failed))

@@ -6,7 +6,8 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.OptionValues
 import org.scalatest.funsuite.AnyFunSuite
 import monocle.law.discipline.PrismTests
-import org.typelevel.discipline.scalatest.Discipline
+import org.typelevel.discipline.scalatest.{Discipline, FunSuiteDiscipline}
+import org.scalatest.prop.Configuration
 
 /* Copyright 2019-present, Nike, Inc.
  * All rights reserved.
@@ -15,7 +16,9 @@ import org.typelevel.discipline.scalatest.Discipline
  * the LICENSE file in the root directory of this source tree.
  */
 
-class MessageAttributeValueLensTest extends AnyFunSuite with Matchers with Discipline with OptionValues {
+class MessageAttributeValueLensTest extends AnyFunSuite with FunSuiteDiscipline with Matchers with Discipline
+  with Configuration with OptionValues {
+
   import MessageAttributeValueGen._
 
   checkAll("stringValue", PrismTests(MessageAttributeValueLens.stringValue))

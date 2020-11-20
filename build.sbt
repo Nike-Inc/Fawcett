@@ -1,7 +1,7 @@
 import Dependencies._
 
-val currentScalaVersion = "2.13.0"
-val scalaVersions = Seq("2.12.10", currentScalaVersion)
+val currentScalaVersion = "2.13.3"
+val scalaVersions = Seq("2.12.12", currentScalaVersion)
 val checkEvictionsTask = taskKey[Unit]("Task that fails build if there are evictions")
 
 
@@ -48,7 +48,6 @@ val commonSettings = Seq(
   libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value % "provided",
   libraryDependencies += scalaCollectionCompat,
   libraryDependencies ++= monocle,
-  dependencyOverrides += catsCore,
   scalacOptions in (Compile, console) ~=
     (_ filterNot Set("-Xfatal-warnings", "-Xlint", "-Ywarn-unused-import")),
   scalacOptions ++= (CrossVersion.partialVersion(scalaVersion.value) match {
@@ -59,7 +58,7 @@ val commonSettings = Seq(
   coverageFailOnMinimum := true,
   libraryDependencies += scalaCheck % Test,
   libraryDependencies += flexmark % Test,
-  libraryDependencies += discipline % Test,
+  libraryDependencies ++= discipline,
   testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-oDF"),
   testOptions in Test +=
     Tests.Argument(TestFrameworks.ScalaTest, "-h", "target/test-reports-html"),
@@ -108,9 +107,14 @@ lazy val commonAwsVersion2 = Seq(
   unmanagedSourceDirectories in Compile += baseDirectory.value / "src/main/aws-version-2",
   unmanagedSourceDirectories in Test += baseDirectory.value / "src/test/aws-version-2",
   dependencyOverrides ++= List(
-    "io.netty" % "netty-codec-http" % "4.1.42.Final",
-    "io.netty" % "netty-handler" % "4.1.42.Final",
-    "org.reactivestreams" % "reactive-streams" % "1.0.2",
+    "io.netty" % "netty-buffer" % "4.1.53.Final",
+    "io.netty" % "netty-common" % "4.1.53.Final",
+    "io.netty" % "netty-transport" % "4.1.53.Final",
+    "io.netty" % "netty-codec" % "4.1.53.Final",
+    "io.netty" % "netty-codec-http" % "4.1.53.Final",
+    "io.netty" % "netty-handler" % "4.1.53.Final",
+    "org.apache.httpcomponents" % "httpcore" % "4.4.13",
+    "org.reactivestreams" % "reactive-streams" % "1.0.3",
     "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.0",
   )
 )

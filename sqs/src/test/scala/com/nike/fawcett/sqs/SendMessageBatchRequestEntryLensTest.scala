@@ -5,7 +5,8 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.funsuite.AnyFunSuite
 import monocle.law.discipline.LensTests
 import SendMessageBatchRequestEntryLens._
-import org.typelevel.discipline.scalatest.Discipline
+import org.typelevel.discipline.scalatest.{Discipline, FunSuiteDiscipline}
+import org.scalatest.prop.Configuration
 import MessageAttributeValueLens._
 import MessageSystemAttributeValueLens._
 
@@ -16,7 +17,9 @@ import MessageSystemAttributeValueLens._
  * the LICENSE file in the root directory of this source tree.
  */
 
-class SendMessageBatchRequestEntryLensTestBase extends AnyFunSuite with Matchers with Discipline {
+class SendMessageBatchRequestEntryLensTestBase extends AnyFunSuite with FunSuiteDiscipline with Matchers
+  with Discipline with Configuration {
+
   import SendMessageBatchRequestEntryGen._
   import MessageSystemAttributeValueGen._
 

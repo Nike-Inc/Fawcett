@@ -6,7 +6,8 @@ import org.scalatest.funsuite.AnyFunSuite
 import monocle.law.discipline.{LensTests, TraversalTests}
 import SendMessageBatchRequestLens._
 import SendMessageBatchRequestEntryLens._
-import org.typelevel.discipline.scalatest.Discipline
+import org.typelevel.discipline.scalatest.{Discipline, FunSuiteDiscipline}
+import org.scalatest.prop.Configuration
 import SendMessageBatchRequestEntryGen._
 
 /* Copyright 2019-present, Nike, Inc.
@@ -16,8 +17,11 @@ import SendMessageBatchRequestEntryGen._
  * the LICENSE file in the root directory of this source tree.
  */
 
-class SendMessageBatchRequestLensTest extends AnyFunSuite with Matchers with Discipline {
+class SendMessageBatchRequestLensTest extends AnyFunSuite with FunSuiteDiscipline with Matchers with Discipline
+  with Configuration {
+
   import SendMessageBatchRequestGen._
+
   checkAll("queueUrl", LensTests(queueUrl))
   checkAll("entries", LensTests(entries))
 

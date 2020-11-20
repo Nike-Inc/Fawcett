@@ -1,6 +1,13 @@
 Change log
 ----------
 
+## 0.4.0
+* Update to Scala 2.13.3, 2.12.12
+* Update to AWS SDK v1 1.11.899
+* Update to AWS SDK v2 2.15.29
+* Update to Cats 2.2.0
+* Update to Monocle 2.0.3
+
 ## 0.3.0
 
 * Update to Monocle 2.0.1

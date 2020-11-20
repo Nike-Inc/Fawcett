@@ -1,6 +1,8 @@
 package com.nike.fawcett.opticsMacro
 
 
+import cats.data.NonEmptyList
+import cats.implicits._
 import scala.reflect.macros.whitebox.Context
 import scala.language.experimental.macros
 import scala.annotation.StaticAnnotation
@@ -123,7 +125,27 @@ object AwsOpticsMacro {
       """)
     }
 
+    // Starting with AWS 2.15.17 composition fails due to an internal representation which hides a null value on get.
+    // Using has* to try and recover this isn't an option because `f compose g` ends up not being equal to
+    // Lens(g)(Lens(f)(s)) when the order of empty transformations results in what should be null becoming empty
+    // map/list
+    // This means no map/list set and empty map/list aren't equal.
+    // This definition of equality is effectively equal not technically equal.
+    def createEquality(methods: NonEmptyList[String]): Tree = {
+      val comparisions = methods.map({ valueName =>
+        q"a1.${TermName(valueName)} == a2.${TermName(valueName)}"
+      }).reduceLeft((acc, t) => q"$acc && $t")
+
+      q"""
+      cats.Eq.instance { case (a1, a2) =>
+        $comparisions
+      }
+      """
+    }
+
     val (conversionStates: List[Boolean], lenses: List[Tree]) = methods.toList.map(method => createLens(method)).unzip
+
+    val equality = createEquality(NonEmptyList.fromListUnsafe(methods))
 
     val imports: List[Tree] = if (conversionStates.reduce(_ || _) == true) {
       List(q"import scala.jdk.CollectionConverters._")
@@ -145,7 +167,7 @@ object AwsOpticsMacro {
           $mods1 trait $tpname[..$tparams] extends { ..$earlydefns } with ..$parents { $self =>
             ..$imports
 
-            implicit val ${TermName(c.freshName("eq"))}: cats.Eq[$sourceType] = cats.Eq.fromUniversalEquals
+            implicit val ${TermName(c.freshName("eq"))}: cats.Eq[$sourceType] = $equality
 
             ..$lenses
 

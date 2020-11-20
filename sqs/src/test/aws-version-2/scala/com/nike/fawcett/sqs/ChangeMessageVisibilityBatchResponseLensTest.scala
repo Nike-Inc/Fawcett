@@ -7,10 +7,9 @@ import monocle.law.discipline.LensTests
 import ChangeMessageVisibilityBatchResponseLens._
 import ChangeMessageVisibilityBatchResultEntryLens._
 import BatchResultErrorEntryLens._
-import org.typelevel.discipline.scalatest.Discipline
+import org.typelevel.discipline.scalatest.{Discipline, FunSuiteDiscipline}
+import org.scalatest.prop.Configuration
 import software.amazon.awssdk.services.sqs.model.{BatchResultErrorEntry, ChangeMessageVisibilityBatchResultEntry}
-import org.scalacheck._
-import Gen._
 import BatchResultErrorEntryGen._
 import ChangeMessageVisibilityBatchResultEntryGen._
 
@@ -21,7 +20,9 @@ import ChangeMessageVisibilityBatchResultEntryGen._
  * the LICENSE file in the root directory of this source tree.
  */
 
-class ChangeMessageVisibilityBatchResponseLensTest extends AnyFunSuite with Matchers with Discipline {
+class ChangeMessageVisibilityBatchResponseLensTest extends AnyFunSuite with FunSuiteDiscipline with Matchers
+  with Discipline with Configuration {
+
   import ChangeMessageVisibilityBatchResponseGen._
 
   checkAll("failed", LensTests(failed))

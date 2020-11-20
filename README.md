@@ -12,7 +12,7 @@ Include the following in your `build.sbt`. If you're using AWS Java SDK version 
 val awsSdkVersion = "v2"
 ...
 resolvers += Resolver.bintrayRepo("nike", "maven"),
-libraryDependencies += "com.nike.fawcett" %% s"fawcett-sqs-$awsSdkVersion" % "0.1.2",
+libraryDependencies += "com.nike.fawcett" %% s"fawcett-sqs-$awsSdkVersion" % "0.4.0",
 ```
 
 

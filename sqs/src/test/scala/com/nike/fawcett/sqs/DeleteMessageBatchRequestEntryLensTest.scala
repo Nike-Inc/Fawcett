@@ -5,7 +5,8 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.funsuite.AnyFunSuite
 import monocle.law.discipline.LensTests
 import DeleteMessageBatchRequestEntryLens._
-import org.typelevel.discipline.scalatest.Discipline
+import org.typelevel.discipline.scalatest.{Discipline, FunSuiteDiscipline}
+import org.scalatest.prop.Configuration
 
 /* Copyright 2019-present, Nike, Inc.
  * All rights reserved.
@@ -14,7 +15,9 @@ import org.typelevel.discipline.scalatest.Discipline
  * the LICENSE file in the root directory of this source tree.
  */
 
-class DeleteMessageBatchRequestEntryLensTest extends AnyFunSuite with Matchers with Discipline {
+class DeleteMessageBatchRequestEntryLensTest extends AnyFunSuite with FunSuiteDiscipline with Matchers with Discipline 
+  with Configuration {
+
   import DeleteMessageBatchRequestEntryGen._
   checkAll("id", LensTests(id))
   checkAll("receiptHandle", LensTests(receiptHandle))
